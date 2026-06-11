@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo Deportivo - Autos de Alta Gama</title>
+    <style>
+        /* Estilos Generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b0c10;
+            color: #c5c6c7;
+        }
+
+        /* Encabezado / Navegación */
+        header {
+            background-color: #1f2833;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #ff003c; /* Línea roja deportiva */
+        }
+
+        header h1 {
+            color: #ffffff;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header h1 span {
+            color: #ff003c;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff003c;
+        }
+
+        /* Sección Principal (Hero) */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h2 {
+            font-size: 42px;
+            color: #fff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #66fcf1;
+            margin-bottom: 20px;
+        }
+
+        /* Sección de Modelos (Tarjetas) */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            color: #fff;
+            border-bottom: 2px solid #1f2833;
+            padding-bottom: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: #1f2833;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border: 1px solid #ff003c;
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .card-content p {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #ff003c;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #cc0030;
+        }
+
+        /* Pie de página */
+        footer {
+            background-color: #111;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ZONA<span>MOTOR</span></h1>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#">Modelos</a>
+            <a href="#">Contacto</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Adrenalina y Velocidad</h2>
+        <p>Descubre la ingeniería y el diseño de los superdeportivos más icónicos del mundo.</p>
+        <a href="#" class="btn">Ver Catálogo</a>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">Modelos Destacados</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=400" alt="Auto Deportivo Rojo">
+                <div class="card-content">
+                    <h3>Superdeportivo Clásico</h3>
+                    <p>Diseño aerodinámico italiano con un motor V8 capaz de romper cualquier récord de velocidad en pista.</p>
+                    <a href="#" class="btn">Más Detalles</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=400" alt="Auto Deportivo Negro">
+                <div class="card-content">
+                    <h3>Tecnología Urbana</h3>
+                    <p>Equipamiento moderno de fibra de carbono enfocado en la agilidad urbana y aceleración instantánea de 0 a 100 km/h.</p>
+                    <a href="#" class="btn">Más Detalles</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=400" alt="Auto Deportivo Alemán">
+                <div class="card-content">
+                    <h3>Edición de Pista</h3>
+                    <p>Creado puramente para los circuitos de competencia. Tracción integral y alerón dinámico optimizado.</p>
+                    <a href="#" class="btn">Más Detalles</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 ZonaMotor. Diseñado para entusiastas de la velocidad.</p>
+    </footer>
+
+</body>
+</html>
