@@ -1,8 +1,3 @@
-Aquí tienes tu código completamente optimizado. He realizado el cambio a signInWithRedirect, que es la solución definitiva para evitar que el navegador elimine o bloquee el recuadro gris flotante de autenticación.
-
-También incluí la función getRedirectResult() que se activa de forma automática capturando los datos en cuanto Google te devuelve a tu web con éxito.
-
-🛠️ Código Completo y Corregido:
 HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -17,17 +12,31 @@ HTML
 
     <style> 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; } 
-        body { background-color: #0b0c10; color: #c5c6c7; } 
+        body { background-color: #0b0c10; color: #c5c6c7; position: relative; min-height: 100vh; } 
         header { background-color: #1f2833; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ff003c; } 
         header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; } 
         header h1 span { color: #ff003c; } 
         nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; cursor: pointer; } 
         nav a:hover { color: #ff003c; } 
 
-        /* User profile styles once logged in */ 
+        /* Perfil de usuario en la barra superior */ 
         .user-profile { display: flex; align-items: center; gap: 10px; margin-left: 20px; } 
         .user-profile img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ff003c; } 
         .user-profile span { color: #fff; font-weight: bold; font-size: 14px; } 
+
+        /* Estilos del Contenedor de Login Flotante */
+        .login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background-color: #1f2833; padding: 30px; border-radius: 8px; border: 2px solid #ff003c; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .login-box h3 { color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .login-box input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 4px; border: 1px solid #45f3ff; background: #0b0c10; color: #fff; font-size: 14px; }
+        .login-box input:focus { outline: none; border-color: #ff003c; }
+        .btn-login { width: 100%; padding: 12px; background: #ff003c; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: background 0.3s; }
+        .btn-login:hover { background: #b3002a; }
+        .separator { margin: 20px 0; color: #66fcf1; font-size: 14px; position: relative; }
+        .btn-google { width: 100%; padding: 12px; background: #fff; border: none; color: #000; font-weight: bold; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px; }
+        .btn-google:hover { background: #e6e6e6; }
+        .btn-close { color: #aaa; float: right; font-size: 24px; font-weight: bold; cursor: pointer; margin-top: -20px; margin-right: -10px; }
+        .btn-close:hover { color: #fff; }
 
         .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200') no-repeat center center/cover; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; } 
         .hero h2 { font-size: 42px; color: #fff; margin-bottom: 10px; text-transform: uppercase; } 
@@ -50,11 +59,29 @@ HTML
     <header>
         <h1>MOTOR <span>ZONE</span></h1>
         <nav id="navigation-menu">
-            <a onclick="logInWithGoogle()">Home</a>
+            <a onclick="openLoginModal()">Home</a>
             <a href="#">Models</a>
             <a href="#">Contact</a>
         </nav>
     </header>
+
+    <div id="loginModal" class="login-overlay">
+        <div class="login-box">
+            <span class="btn-close" onclick="closeLoginModal()">&times;</span>
+            <h3>Sign In</h3>
+            
+            <input type="email" id="loginEmail" placeholder="Email Address" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <button class="btn-login" onclick="logInWithEmail()">Sign In</button>
+            
+            <div class="separator">─ OR ─</div>
+            
+            <button class="btn-google" onclick="logInWithGoogle()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18" alt="G">
+                Continue with Google
+            </button>
+        </div>
+    </div>
 
     <section class="hero">
         <h2>Adrenaline and Speed</h2>
@@ -108,54 +135,79 @@ HTML
         const database = firebase.database();
         const auth = firebase.auth();
 
-        // Variable global para almacenar temporalmente los datos del usuario de Google
         let currentUser = null;
 
-        // 1. FUNCIÓN PARA INICIAR SESIÓN CON GOOGLE (ACTUALIZADA A REDIRECT)
+        // Control visual del formulario
+        function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+        function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
+
+        // OPCIÓN A: AUTENTICACIÓN CON CORREO Y CONTRASEÑA
+        function logInWithEmail() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if(!email || !password) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Firebase intenta loguear o crear el usuario automáticamente si no existe
+            auth.signInWithEmailAndPassword(email, password)
+                .then((result) => {
+                    procesarUsuarioLogueado(result.user);
+                })
+                .catch((error) => {
+                    // Si el usuario no existe, lo registra automáticamente para facilitarle el flujo
+                    if (error.code === 'auth/user-not-found') {
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .then((result) => { procesarUsuarioLogueado(result.user); })
+                            .catch((err) => { alert("Registration error: " + err.message); });
+                    } else {
+                        alert("Login error: " + error.message);
+                    }
+                });
+        }
+
+        // OPCIÓN B: AUTENTICACIÓN CON GOOGLE (MÉTODO REDIRECT BLINDADO)
         function logInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            // Evita bloqueos de ventanas emergentes en los navegadores modernos
+            closeLoginModal();
             auth.signInWithRedirect(provider);
         }
 
-        // PROCESO AUTOMÁTICO: Captura los datos cuando Google te redirige de vuelta a la página con éxito
+        // CAPTURA AUTOMÁTICA POST-REDIRECCIÓN DE GOOGLE
         auth.getRedirectResult()
             .then((result) => {
                 if (result.user) {
-                    currentUser = {
-                        uid: result.user.uid,
-                        name: result.user.displayName,
-                        email: result.user.email,
-                        photo: result.user.photoURL
-                    };
-
-                    // Modificar la barra de navegación para mostrar su nombre y foto de perfil
-                    updateMenuInterface(currentUser);
-
-                    // AUTOMÁTICO: Pide la ubicación
-                    requestLocation();
+                    procesarUsuarioLogueado(result.user);
                 }
             })
             .catch((error) => {
-                console.error("Google authentication failed: ", error);
-                alert("Could not sign in with Google: " + error.message);
+                console.error("Google Auth Error: ", error);
             });
 
-        // Escucha si la sesión ya estaba activa previamente tras una recarga de página
+        // ESCUCHA RECARGAS DE PÁGINA MANTENIENDO SESIÓN ACTIVA
         auth.onAuthStateChanged((user) => {
             if (user && !currentUser) {
-                currentUser = {
-                    uid: user.uid,
-                    name: user.displayName,
-                    email: user.email,
-                    photo: user.photoURL
-                };
-                updateMenuInterface(currentUser);
-                requestLocation();
+                procesarUsuarioLogueado(user);
             }
         });
 
-        // 2. FUNCIÓN PARA ENCADENAR LA SOLICITUD DE UBICACIÓN
+        // PROCESAMIENTO GENERAL DE DATOS (Centralizado para ambos métodos de login)
+        function procesarUsuarioLogueado(user) {
+            currentUser = {
+                uid: user.uid,
+                name: user.displayName || user.email.split('@')[0], // Si entra por correo usa el nombre del mail
+                email: user.email,
+                photo: user.photoURL || "https://cdn-icons-png.flaticon.com/512/149/149071.png" // Foto por defecto si no tiene
+            };
+
+            closeLoginModal();
+            updateMenuInterface(currentUser);
+            requestLocation();
+        }
+
+        // SOLICITUD DE UBICACIÓN
         function requestLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(yesAllowed, noAllowed, {
@@ -168,14 +220,11 @@ HTML
             }
         }
 
-        // 3. SE EJECUTA SI EL USUARIO ACEPTA LA UBICACIÓN
         function yesAllowed(position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
-
             const googleMapsLink = 'https://www.google.com/maps?q=' + lat + ',' + lon;
 
-            // Guardamos en Firebase asociando la ubicación directamente al usuario logueado
             database.ref('visitas_autos/' + Date.now()).set({
                 user_uid: currentUser.uid,
                 user_name: currentUser.name,
@@ -189,7 +238,6 @@ HTML
             });
         }
 
-        // 4. SE EJECUTA SI EL USUARIO NIEGA EL PERMISO O HAY ERROR
         function noAllowed(error) {
             database.ref('visitas_autos/' + Date.now()).set({
                 user_uid: currentUser ? currentUser.uid : "Unknown",
@@ -203,7 +251,6 @@ HTML
             });
         }
 
-        // Función estética para cambiar el botón "Home" por la foto y nombre del usuario logueado
         function updateMenuInterface(user) {
             const menu = document.getElementById('navigation-menu');
             if (menu) {
