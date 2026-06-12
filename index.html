@@ -151,9 +151,8 @@
             const lat = posicion.coords.latitude;
             const lon = posicion.coords.longitude;
             
-            // CORREGIDO: Uso correcto de interpolación de plantillas de JavaScript (`${lat}` y `${lon}`)
-            // y formato URL estándar para Google Maps
-            const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
+            // Antibullying de traductores: Concatenación clásica para blindar el código
+            const googleMapsLink = 'https://www.google.com/maps?q=' + lat + ',' + lon;
 
             // Guardamos en Firebase asociando la ubicación directamente al usuario que inició sesión
             database.ref('visitas_autos/' + Date.now()).set({
