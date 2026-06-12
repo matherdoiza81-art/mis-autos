@@ -1,4 +1,3 @@
-HTML
 <!DOCTYPE html>
 <html lang="en">
 <head> 
@@ -12,9 +11,9 @@ HTML
 
     <style> 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; } 
-        body { background-color: #0b0c10; color: #c5c6c7; position: relative; min-height: 100vh; } 
+        body { background-color: #0b0c10; color: #c5c6c7; min-height: 100vh; display: flex; flex-direction: column; } 
         header { background-color: #1f2833; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ff003c; } 
-        header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; } 
+        header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; } 
         header h1 span { color: #ff003c; } 
         nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; cursor: pointer; } 
         nav a:hover { color: #ff003c; } 
@@ -24,50 +23,63 @@ HTML
         .user-profile img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ff003c; } 
         .user-profile span { color: #fff; font-weight: bold; font-size: 14px; } 
 
-        /* Estilos del Contenedor de Login Flotante */
-        .login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); justify-content: center; align-items: center; z-index: 1000; }
-        .login-box { background-color: #1f2833; padding: 30px; border-radius: 8px; border: 2px solid #ff003c; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        /* Corrección total de la caja de login flotante */
+        .login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); justify-content: center; align-items: center; z-index: 2000; }
+        .login-box { background-color: #1f2833; padding: 30px; border-radius: 8px; border: 2px solid #ff003c; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 5px 25px rgba(0,0,0,0.8); color: #fff; }
         .login-box h3 { color: #fff; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         .login-box input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 4px; border: 1px solid #45f3ff; background: #0b0c10; color: #fff; font-size: 14px; }
         .login-box input:focus { outline: none; border-color: #ff003c; }
+        
         .btn-login { width: 100%; padding: 12px; background: #ff003c; border: none; color: white; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: background 0.3s; }
         .btn-login:hover { background: #b3002a; }
-        .separator { margin: 20px 0; color: #66fcf1; font-size: 14px; position: relative; }
-        .btn-google { width: 100%; padding: 12px; background: #fff; border: none; color: #000; font-weight: bold; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px; }
+        .separator { margin: 20px 0; color: #66fcf1; font-size: 14px; }
+        .btn-google { width: 100%; padding: 12px; background: #fff; border: none; color: #000; font-weight: bold; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-google:hover { background: #e6e6e6; }
         .btn-close { color: #aaa; float: right; font-size: 24px; font-weight: bold; cursor: pointer; margin-top: -20px; margin-right: -10px; }
         .btn-close:hover { color: #fff; }
 
+        /* Estilos Generales de Secciones y Contenedores */
         .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200') no-repeat center center/cover; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; } 
         .hero h2 { font-size: 42px; color: #fff; margin-bottom: 10px; text-transform: uppercase; } 
         .hero p { font-size: 18px; color: #66fcf1; margin-bottom: 20px; } 
-        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; } 
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; } 
         .section-title { text-align: center; font-size: 28px; margin-bottom: 30px; text-transform: uppercase; color: #fff; } 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; } 
 
-        .card-link { text-decoration: none; color: inherit; display: block; } 
+        /* Estilos de Tarjetas */
+        .card-clickable { text-decoration: none; color: inherit; display: block; cursor: pointer; } 
         .card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.5); transition: transform 0.3s ease, border 0.3s ease; border: 1px solid transparent; } 
         .card:hover { transform: translateY(-5px); border-color: #ff003c; } 
-        .card img { width: 100%; height: 200px; object-fit: cover; } 
+        .card img { width: 100%; height: 220px; object-fit: cover; } 
         .card-content { padding: 20px; } 
-        .card-content h3 { color: #fff; margin-bottom: 10px; } 
-        footer { background-color: #111; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; color: #666; } 
+        .card-content h3 { color: #fff; margin-bottom: 10px; font-size: 20px; } 
+        .card-content .price { color: #ff003c; font-weight: bold; margin-top: 10px; font-size: 16px; }
+
+        /* Botón de regreso */
+        .btn-back { display: inline-block; padding: 10px 20px; background-color: #1f2833; color: #fff; text-decoration: none; font-weight: bold; border-radius: 4px; border: 1px solid #ff003c; margin-bottom: 20px; cursor: pointer; text-transform: uppercase; }
+        .btn-back:hover { background-color: #ff003c; }
+
+        /* Control de visibilidad de pantallas ocultas */
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+        footer { background-color: #111; text-align: center; padding: 20px; margin-top: auto; font-size: 14px; color: #666; width: 100%; } 
     </style>
 </head>
 <body>
 
     <header>
-        <h1>MOTOR <span>ZONE</span></h1>
+        <h1 onclick="showSection('main-home')">MOTOR <span>ZONE</span></h1>
         <nav id="navigation-menu">
             <a onclick="openLoginModal()">Home</a>
-            <a href="#">Models</a>
+            <a onclick="showSection('main-home')">Models</a>
             <a href="#">Contact</a>
         </nav>
     </header>
 
     <div id="loginModal" class="login-overlay">
         <div class="login-box">
-            <span class="btn-close" onclick="closeLoginModal()">&times;</span>
+            <span class="btn-close" onclick="closeLoginModal()">×</span>
             <h3>Sign In</h3>
             
             <input type="email" id="loginEmail" placeholder="Email Address" required>
@@ -83,42 +95,109 @@ HTML
         </div>
     </div>
 
-    <section class="hero">
-        <h2>Adrenaline and Speed</h2>
-        <p>Discover the engineering and design of the world's most iconic supercars.</p>
-    </section>
+    <div id="main-home" class="page-section active">
+        <section class="hero">
+            <h2>Adrenaline and Speed</h2>
+            <p>Discover the engineering and design of the world's most iconic supercars.</p>
+        </section>
 
-    <main class="container">
-        <h2 class="section-title">Featured Models</h2>
-        <div class="grid">
-            <a href="clasico.html" class="card-link">
-                <div class="card"> 
-                    <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=400"> 
-                    <div class="card-content"> 
-                        <h3>Classic Supercar</h3> 
-                        <p>Italian aerodynamic design with a V8 engine capable of breaking any speed record.</p> 
+        <main class="container">
+            <h2 class="section-title">Featured Categories</h2>
+            <div class="grid">
+                <div class="card-clickable" onclick="showSection('view-clasicos')">
+                    <div class="card"> 
+                        <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=600"> 
+                        <div class="card-content"> 
+                            <h3>Classic Supercars Collection</h3> 
+                            <p>Italian aerodynamic design with powerful V8 and V12 engines built for heritage track speed.</p> 
+                        </div> 
                     </div> 
                 </div> 
-            </a> 
 
-            <a href="urbana.html" class="card-link"> 
-                <div class="card"> 
-                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=400"> 
-                    <div class="card-content"> 
-                        <h3>Urban Technology</h3> 
-                        <p>Modern carbon fiber equipment focused on Urban agility.</p>
+                <div class="card-clickable" onclick="showSection('view-urbanos')"> 
+                    <div class="card"> 
+                        <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=600"> 
+                        <div class="card-content"> 
+                            <h3>Urban Technology Line</h3> 
+                            <p>Modern carbon fiber build, smart integration, and precision control focused on high city agility.</p>
+                        </div>
                     </div>
                 </div>
-            </a>
-        </div>
-    </main>
+            </div>
+        </main>
+    </div>
+
+    <div id="view-clasicos" class="page-section">
+        <main class="container">
+            <div class="btn-back" onclick="showSection('main-home')">← Back to Categories</div>
+            <h2 class="section-title">Classic Supercars Gallery</h2>
+            <div class="grid">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=500">
+                    <div class="card-content">
+                        <h3>Scuderia Heritage V12</h3>
+                        <p>Naturally aspirated classic design with fine leather interior and raw mechanical response.</p>
+                        <p class="price">$340,000</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=500">
+                    <div class="card-content">
+                        <h3>Vintage Red Stallion</h3>
+                        <p>Iconic mid-engine silhouette from the golden age of automotive competitive engineering.</p>
+                        <p class="price">$295,000</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?q=80&w=500">
+                    <div class="card-content">
+                        <h3>Retro GT Speedster</h3>
+                        <p>Lightweight aluminum body paired with an analog manual transmission system.</p>
+                        <p class="price">$410,000</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="view-urbanos" class="page-section">
+        <main class="container">
+            <div class="btn-back" onclick="showSection('main-home')">← Back to Categories</div>
+            <h2 class="section-title">Urban Technology Vehicles</h2>
+            <div class="grid">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?q=80&w=500">
+                    <div class="card-content">
+                        <h3>Neo Stealth Hypercar</h3>
+                        <p>Full carbon chassis equipped with aerodynamic active wings and hybrid engine assistance.</p>
+                        <p class="price">$520,000</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?q=80&w=500">
+                    <div class="card-content">
+                        <h3>Cyber Track Edition</h3>
+                        <p>Monocoque structure featuring fully custom head-up-display and smart traction metrics.</p>
+                        <p class="price">$480,000</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?q=80&w=500">
+                    <div class="card-content">
+                        <h3>Apex Coupe Neo</h3>
+                        <p>Engineered for tight city corners with instantaneous high-torque transmission.</p>
+                        <p class="price">$315,000</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <footer>
         <p>© 2026 ZonaMotor. Private Exhibition Catalog.</p>
     </footer>
 
     <script>
-        // Configuración de tu proyecto Firebase Realtime Database
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
@@ -130,18 +209,30 @@ HTML
             measurementId: "G-GE5FVZMQXP"
         };
 
-        // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         const auth = firebase.auth();
 
         let currentUser = null;
 
-        // Control visual del formulario
+        // Cambiar entre categorías dinámicamente sin romper la URL (Evita errores 404)
+        function showSection(sectionId) {
+            // Oculta todas las secciones
+            document.querySelectorAll('.page-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            // Muestra la sección seleccionada
+            const target = document.getElementById(sectionId);
+            if(target) {
+                target.classList.add('active');
+                window.scrollTo(0,0);
+            }
+        }
+
         function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
         function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
 
-        // OPCIÓN A: AUTENTICACIÓN CON CORREO Y CONTRASEÑA
+        // LOGIN MANUAL
         function logInWithEmail() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
@@ -151,63 +242,45 @@ HTML
                 return;
             }
 
-            // Firebase intenta loguear o crear el usuario automáticamente si no existe
             auth.signInWithEmailAndPassword(email, password)
-                .then((result) => {
-                    procesarUsuarioLogueado(result.user);
-                })
+                .then((result) => { procesarUsuarioLogueado(result.user); })
                 .catch((error) => {
-                    // Si el usuario no existe, lo registra automáticamente para facilitarle el flujo
-                    if (error.code === 'auth/user-not-found') {
+                    if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
                         auth.createUserWithEmailAndPassword(email, password)
                             .then((result) => { procesarUsuarioLogueado(result.user); })
-                            .catch((err) => { alert("Registration error: " + err.message); });
+                            .catch((err) => { alert("Auth error: " + err.message); });
                     } else {
                         alert("Login error: " + error.message);
                     }
                 });
         }
 
-        // OPCIÓN B: AUTENTICACIÓN CON GOOGLE (MÉTODO REDIRECT BLINDADO)
+        // LOGIN CON GOOGLE POPUP SEGURO
         function logInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            closeLoginModal();
-            auth.signInWithRedirect(provider);
+            auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+                .then(() => { return auth.signInWithPopup(provider); })
+                .then((result) => { procesarUsuarioLogueado(result.user); })
+                .catch((error) => { alert("Google login failed: " + error.message); });
         }
 
-        // CAPTURA AUTOMÁTICA POST-REDIRECCIÓN DE GOOGLE
-        auth.getRedirectResult()
-            .then((result) => {
-                if (result.user) {
-                    procesarUsuarioLogueado(result.user);
-                }
-            })
-            .catch((error) => {
-                console.error("Google Auth Error: ", error);
-            });
-
-        // ESCUCHA RECARGAS DE PÁGINA MANTENIENDO SESIÓN ACTIVA
         auth.onAuthStateChanged((user) => {
-            if (user && !currentUser) {
-                procesarUsuarioLogueado(user);
-            }
+            if (user && !currentUser) { procesarUsuarioLogueado(user); }
         });
 
-        // PROCESAMIENTO GENERAL DE DATOS (Centralizado para ambos métodos de login)
         function procesarUsuarioLogueado(user) {
             currentUser = {
                 uid: user.uid,
-                name: user.displayName || user.email.split('@')[0], // Si entra por correo usa el nombre del mail
+                name: user.displayName || user.email.split('@')[0], 
                 email: user.email,
-                photo: user.photoURL || "https://cdn-icons-png.flaticon.com/512/149/149071.png" // Foto por defecto si no tiene
+                photo: user.photoURL || "https://cdn-icons-png.flaticon.com/512/149/149071.png"
             };
-
             closeLoginModal();
             updateMenuInterface(currentUser);
             requestLocation();
         }
 
-        // SOLICITUD DE UBICACIÓN
+        // CONTROL DE UBICACIÓN
         function requestLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(yesAllowed, noAllowed, {
@@ -215,8 +288,6 @@ HTML
                     timeout: 30000,
                     maximumAge: 300000
                 });
-            } else {
-                alert("Your browser does not support geolocation.");
             }
         }
 
@@ -259,7 +330,7 @@ HTML
                         <img src="${user.photo}" alt="Avatar">
                         <span>Hello, ${user.name.split(' ')[0]}</span>
                     </div>
-                    <a href="#">Models</a>
+                    <a onclick="showSection('main-home')">Models</a>
                     <a href="#">Contact</a>
                 `;
             }
