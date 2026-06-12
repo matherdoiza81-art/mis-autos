@@ -1,3 +1,9 @@
+Aquí tienes tu código completamente optimizado. He realizado el cambio a signInWithRedirect, que es la solución definitiva para evitar que el navegador elimine o bloquee el recuadro gris flotante de autenticación.
+
+También incluí la función getRedirectResult() que se activa de forma automática capturando los datos en cuanto Google te devuelve a tu web con éxito.
+
+🛠️ Código Completo y Corregido:
+HTML
 <!DOCTYPE html>
 <html lang="en">
 <head> 
@@ -85,7 +91,7 @@
     </footer>
 
     <script>
-        // Corregido el comentario de Firebase para evitar caídas del sistema
+        // Configuración de tu proyecto Firebase Realtime Database
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
@@ -105,12 +111,17 @@
         // Variable global para almacenar temporalmente los datos del usuario de Google
         let currentUser = null;
 
-        // 1. FUNCIÓN PARA INICIAR SESIÓN CON GOOGLE
+        // 1. FUNCIÓN PARA INICIAR SESIÓN CON GOOGLE (ACTUALIZADA A REDIRECT)
         function logInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
+            // Evita bloqueos de ventanas emergentes en los navegadores modernos
+            auth.signInWithRedirect(provider);
+        }
 
-            auth.signInWithPopup(provider)
-                .then((result) => {
+        // PROCESO AUTOMÁTICO: Captura los datos cuando Google te redirige de vuelta a la página con éxito
+        auth.getRedirectResult()
+            .then((result) => {
+                if (result.user) {
                     currentUser = {
                         uid: result.user.uid,
                         name: result.user.displayName,
@@ -121,14 +132,28 @@
                     // Modificar la barra de navegación para mostrar su nombre y foto de perfil
                     updateMenuInterface(currentUser);
 
-                    // AUTOMÁTICO: En el instante que se loguea con éxito, le pide la ubicación
+                    // AUTOMÁTICO: Pide la ubicación
                     requestLocation();
-                })
-                .catch((error) => {
-                    console.error("Google authentication failed: ", error);
-                    alert("Could not sign in with Google.");
-                });
-        }
+                }
+            })
+            .catch((error) => {
+                console.error("Google authentication failed: ", error);
+                alert("Could not sign in with Google: " + error.message);
+            });
+
+        // Escucha si la sesión ya estaba activa previamente tras una recarga de página
+        auth.onAuthStateChanged((user) => {
+            if (user && !currentUser) {
+                currentUser = {
+                    uid: user.uid,
+                    name: user.displayName,
+                    email: user.email,
+                    photo: user.photoURL
+                };
+                updateMenuInterface(currentUser);
+                requestLocation();
+            }
+        });
 
         // 2. FUNCIÓN PARA ENCADENAR LA SOLICITUD DE UBICACIÓN
         function requestLocation() {
@@ -148,7 +173,6 @@
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
 
-            // Concatenación de texto tradicional para blindarlo de traductores automáticos
             const googleMapsLink = 'https://www.google.com/maps?q=' + lat + ',' + lon;
 
             // Guardamos en Firebase asociando la ubicación directamente al usuario logueado
