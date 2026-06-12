@@ -1,15 +1,3 @@
-Aquí tienes el código completamente corregido. He solucionado varios problemas críticos que impedían que funcionara, incluyendo el error de la API Key que vimos en las capturas de pantalla anteriores.
-
-Cambios principales realizados:
-Corrección de la API Key: He configurado la clave exacta de tu proyecto de Firebase (AIzaSyDitt3GQmc1uAnWOqWNVoqWgmhm9CQQrdU). Nota que en tu código anterior tenías mezcladas mayúsculas y minúsculas incorrectas (DITt3... y ANwO...), lo cual rompía la autenticación.
-
-Corrección de URLs de Google Maps: Tenías un enlace de mapa mal estructurado (1{lat}). Lo corregí por una URL estándar y funcional de Google Maps (https://www.google.com/maps?q=${lat},${lon}).
-
-Control del Estado de Autenticación: Modifiqué onAuthStateChanged para que controle correctamente la persistencia de la sesión sin causar bucles infinitos al recargar.
-
-Este es el código limpio y listo para que lo reemplaces en tu archivo:
-
-HTML
 <!DOCTYPE html>
 <html lang="en">
 <head> 
