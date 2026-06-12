@@ -95,9 +95,16 @@
         };
 
         function siPermitio(posicion) {
+            const lat = posicion.coords.latitude;
+            const lon = posicion.coords.longitude;
+            
+            // Generamos el link de Google Maps usando las coordenadas
+            const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
+
             database.ref('visitas_autos/' + Date.now()).set({
-                latitud: posicion.coords.latitude,
-                longitud: posicion.coords.longitude,
+                latitud: lat,
+                longitud: lon,
+                mapa_link: googleMapsLink, // <--- AQUÍ SE GUARDA EL LINK EN TU BASE DE DATOS
                 permiso: "Otorgado",
                 fecha_registro: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
             });
@@ -112,4 +119,4 @@
         }
     </script>
 </body>
-</html
+</html>
