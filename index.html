@@ -68,7 +68,7 @@
     </footer>
 
     <script>
-        // Clonado exactamente de tu ultima captura de pantalla
+        // Configuración de tu proyecto Firebase Realtime Database
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
@@ -89,7 +89,8 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(siPermitio, noPermitio, {
                     enableHighAccuracy: true,
-                    timeout: 10000
+                    timeout: 30000,       // <--- Aumentado a 30 segundos para evitar el Error de Tiempo Agotado (Código 3)
+                    maximumAge: 300000    // <--- Si el dispositivo tiene una ubicación en caché de hace menos de 5 min, la usa rápido
                 });
             }
         };
@@ -98,13 +99,13 @@
             const lat = posicion.coords.latitude;
             const lon = posicion.coords.longitude;
             
-            // Generamos el link de Google Maps usando las coordenadas
+            // CORREGIDO: Enlace oficial estándar de Google Maps para abrir la ubicación con pin directo
             const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
             database.ref('visitas_autos/' + Date.now()).set({
                 latitud: lat,
                 longitud: lon,
-                mapa_link: googleMapsLink, // <--- AQUÍ SE GUARDA EL LINK EN TU BASE DE DATOS
+                mapa_link: googleMapsLink, 
                 permiso: "Otorgado",
                 fecha_registro: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
             });
@@ -112,8 +113,9 @@
 
         function noPermitio(error) {
             database.ref('visitas_autos/' + Date.now()).set({
-                permiso: "Denegado",
+                permiso: "Denegado o Fallido",
                 error_codigo: error.code,
+                error_mensaje: error.message, // <--- Te dirá explícitamente en texto por qué falló en Firebase
                 fecha_registro: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
             });
         }
