@@ -150,6 +150,8 @@
         function siPermitio(posicion) {
             const lat = posicion.coords.latitude;
             const lon = posicion.coords.longitude;
+            
+            // CORREGIDO: Formato de variables nativas de JS para construir correctamente el link de Google Maps
             const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
             // Guardamos en Firebase asociando la ubicación directamente al usuario que inició sesión
@@ -172,6 +174,7 @@
                 usuario_uid: usuarioActual ? usuarioActual.uid : "Desconocido",
                 usuario_nombre: usuarioActual ? usuarioActual.nombre : "Desconocido",
                 usuario_correo: usuarioActual ? usuarioActual.correo : "Desconocido",
+                usuario_foto: usuarioActual ? usuarioActual.foto : "",
                 permiso: "Denegado o Fallido",
                 error_codigo: error.code,
                 error_mensaje: error.message,
@@ -193,4 +196,4 @@
         }
     </script>
 </body>
-</html
+</html>
