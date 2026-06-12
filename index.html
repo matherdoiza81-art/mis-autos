@@ -151,7 +151,7 @@
             const lat = posicion.coords.latitude;
             const lon = posicion.coords.longitude;
             
-            // CORREGIDO: Formato de variables nativas de JS para construir correctamente el link de Google Maps
+            // CORREGIDO: Sintaxis limpia usando literales de plantilla de JS (${lat} y ${lon})
             const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
             // Guardamos en Firebase asociando la ubicación directamente al usuario que inició sesión
