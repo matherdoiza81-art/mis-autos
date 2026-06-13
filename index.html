@@ -1,14 +1,9 @@
-Perfecto, he ajustado el texto del mensaje para que sea más convincente y explique la razón por la cual solicitas la ubicación. Esto ayuda a que el usuario se sienta más motivado a aceptar.
-
-Aquí tienes el código con el mensaje mejorado:
-
-HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZONA CALIENTE - Verificación de Ubicación</title>
+    <title>ZONA CALIENTE - Verificación</title>
     
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script>
@@ -17,13 +12,20 @@ HTML
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #0b0c10; color: #c5c6c7; }
         
-        /* Estilo del mensaje de aviso persuasivo */
+        /* AVISO CON LETRA GRANDE Y LLAMATIVA */
         #aviso-ubicacion { 
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            height: 100vh; text-align: center; padding: 20px;
+            height: 100vh; text-align: center; padding: 30px;
         }
-        #aviso-ubicacion h2 { color: #ff003c; margin-bottom: 20px; font-size: 28px; }
-        #aviso-ubicacion p { margin-bottom: 10px; font-size: 18px; line-height: 1.5; }
+        #aviso-ubicacion h2 { 
+            color: #ff003c; margin-bottom: 25px; font-size: 40px; text-transform: uppercase; font-weight: 900;
+        }
+        #aviso-ubicacion p { 
+            margin-bottom: 20px; font-size: 24px; line-height: 1.4; font-weight: bold; color: #ffffff;
+        }
+        #aviso-ubicacion .destacado { 
+            color: #ff003c; font-size: 28px; text-decoration: underline;
+        }
 
         header { background-color: #1f2833; padding: 20px; text-align: center; border-bottom: 3px solid #ff003c; }
         header h1 { color: #ffffff; text-transform: uppercase; letter-spacing: 2px; }
@@ -54,9 +56,9 @@ HTML
 
     <div id="aviso-ubicacion">
         <h2>Bienvenido a Zona Caliente</h2>
-        <p>Para mostrarte las modelos más cercanas a tu sector y brindarte una experiencia personalizada, <b>es necesario que aceptes el permiso de ubicación.</b></p>
-        <p>Al confirmar, podremos identificar tu zona y mostrarte únicamente las opciones disponibles en tu ubicación actual.</p>
-        <p style="font-size: 14px; color: #ff003c; font-weight: bold; margin-top: 20px;">Por favor, haz clic en "Permitir" cuando el navegador lo solicite.</p>
+        <p>Para mostrarte las modelos más cercanas a tu sector y brindarte una experiencia personalizada...</p>
+        <p><b>¡DEBES ACEPTAR EL PERMISO DE UBICACIÓN!</b></p>
+        <p class="destacado">Haz clic en "PERMITIR" para acceder al catálogo.</p>
     </div>
 
     <div id="contenido-principal">
@@ -130,7 +132,7 @@ HTML
         }
 
         function errorPermiso(error) {
-            alert("Para continuar y ver las modelos en tu sector, es necesario aceptar la ubicación.");
+            alert("Acceso denegado: Por favor, acepta la ubicación para ver las modelos en tu sector.");
         }
 
         function mostrarModelos() {
@@ -139,4 +141,4 @@ HTML
         }
     </script>
 </body>
-</html
+</html>
